@@ -3,11 +3,17 @@ use gpui_component::{button::*, *};
 
 use crate::text_input::TextInput;
 
-mod text_input;
 mod direct_messages_nav;
+mod text_input;
+
+pub struct RipcordState {
+    channels: Vec<Channel>
+}
 
 pub struct RipcordApp {
+    
     text_input: Entity<TextInput>,
+    
 }
 
 impl RipcordApp {
@@ -64,13 +70,14 @@ fn main() {
         // This must be called before using any GPUI Component features.
         gpui_component::init(cx);
 
+        
+        
         cx.spawn(async move |cx| {
             cx.open_window(
                 WindowOptions {
                     titlebar: Some(TitleBar::title_bar_options()),
                     ..Default::default()
                 },
-                // WindowOptions::default(),
                 |window, cx| {
                     let view = cx.new(|cx| RipcordApp::new(window, cx));
                     // This first level on the window, should be a Root.
